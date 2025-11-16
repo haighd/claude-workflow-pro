@@ -1,0 +1,135 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  pr-validation:
+    name: Validate PR
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check PR title format
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          # Check if PR title follows conventional commits format
+          if [[ ! "$PR_TITLE" =~ ^(feat|fix|docs|test|refactor|perf|chore|style)(\(.*\))?: ]]; then
+            echo "❌ PR title should follow conventional commits format:"
+            echo "   feat: add new feature"
+            echo "   fix: fix bug"
+            echo "   docs: update documentation"
+            echo "   etc."
+            exit 1
+          fi
+          echo "✓ PR title follows conventional commits format"
+
+      - name: Check PR description
+        run: |
+          PR_BODY="${{ github.event.pull_request.body }}"
+          if [ -z "$PR_BODY" ] || [ ${#PR_BODY} -lt 50 ]; then
+            echo "❌ PR description is too short or missing"
+            echo "Please provide a detailed description of your changes"
+            exit 1
+          fi
+          echo "✓ PR description is adequate"
+
+      - name: Check for CHANGELOG update
+        run: |
+          # Check if CHANGELOG.md was modified in this PR
+          git fetch origin main
+          CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
+
+          # Skip CHANGELOG check for docs-only PRs
+          if echo "$CHANGED_FILES" | grep -qvE '\.md$|^docs/|^examples/'; then
+            if ! echo "$CHANGED_FILES" | grep -q "CHANGELOG.md"; then
+              echo "⚠️  Warning: CHANGELOG.md not updated"
+              echo "Consider adding an entry to CHANGELOG.md"
+            else
+              echo "✓ CHANGELOG.md updated"
+            fi
+          else
+            echo "✓ Docs-only PR, CHANGELOG update not required"
+          fi
+
+      - name: Check file permissions
+        run: |
+          # Check that test scripts are executable
+          for test in tests/**/*.sh; do
+            if [ -f "$test" ] && [ ! -x "$test" ]; then
+              echo "Warning: $test is not executable"
+              echo "Run: chmod +x $test"
+            fi
+          done
+
+      - name: Check for large files
+        run: |
+          # Check for accidentally committed large files
+          LARGE_FILES=$(find . -type f -size +1M -not -path "./.git/*" -not -path "./node_modules/*")
+          if [ -n "$LARGE_FILES" ]; then
+            echo "⚠️  Warning: Large files detected:"
+            echo "$LARGE_FILES"
+            echo "Consider using Git LFS for large files"
+          fi
+
+  label-pr:
+    name: Auto-label PR
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Label PR based on files changed
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
+
+  size-label:
+    name: Label PR Size
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Calculate PR size
+        id: size
+        run: |
+          ADDITIONS=${{ github.event.pull_request.additions }}
+          DELETIONS=${{ github.event.pull_request.deletions }}
+          TOTAL=$((ADDITIONS + DELETIONS))
+
+          if [ $TOTAL -lt 10 ]; then
+            echo "size=XS" >> $GITHUB_OUTPUT
+          elif [ $TOTAL -lt 50 ]; then
+            echo "size=S" >> $GITHUB_OUTPUT
+          elif [ $TOTAL -lt 200 ]; then
+            echo "size=M" >> $GITHUB_OUTPUT
+          elif [ $TOTAL -lt 500 ]; then
+            echo "size=L" >> $GITHUB_OUTPUT
+          else
+            echo "size=XL" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Add size label
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const size = '${{ steps.size.outputs.size }}';
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: [`size/${size}`]
+            });

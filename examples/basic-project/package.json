@@ -1,0 +1,16 @@
+{
+  "name": "basic-project-example",
+  "version": "1.0.0",
+  "description": "Basic example project using Claude Workflow Pro",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "example",
+    "claude-workflow-pro"
+  ],
+  "author": "",
+  "license": "MIT"
+}

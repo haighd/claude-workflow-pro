@@ -1,0 +1,92 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schemas/settings.schema.json",
+  "description": "Example Claude Code settings for Claude Workflow Pro plugin. Copy to .claude-settings.json and customize for your project.",
+
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "description": "Example: Run validation before processing user prompts",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'User prompt submitted' >> \"$CLAUDE_PROJECT_DIR\"/.claude/prompt-log.txt"
+          }
+        ]
+      }
+    ],
+
+    "Stop": [
+      {
+        "description": "Example: Run cleanup or validation when stopping",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Session stopped at $(date)' >> \"$CLAUDE_PROJECT_DIR\"/.claude/session-log.txt"
+          }
+        ]
+      }
+    ],
+
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "description": "Log all Bash commands before execution",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '\"[\\(.timestamp)] \\(.tool_input.command)\"' >> \"$CLAUDE_PROJECT_DIR\"/.claude/bash-command-log.txt 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "description": "Example: Run linter before file modifications",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'File modification: ' >> \"$CLAUDE_PROJECT_DIR\"/.claude/file-changes.txt"
+          }
+        ]
+      }
+    ],
+
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "description": "Example: Format code after edits",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'File modified at $(date)' >> \"$CLAUDE_PROJECT_DIR\"/.claude/file-changes.txt"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "description": "Example: Log Bash command completion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Bash command completed' >> \"$CLAUDE_PROJECT_DIR\"/.claude/bash-command-log.txt"
+          }
+        ]
+      }
+    ]
+  },
+
+  "comments": {
+    "pathFormat": "All hook commands MUST use \"$CLAUDE_PROJECT_DIR\" to reference project files",
+    "quoting": "Paths with $CLAUDE_PROJECT_DIR must be quoted to handle spaces",
+    "examples": [
+      "node \"$CLAUDE_PROJECT_DIR\"/.claude/scripts/my-script.js",
+      "bash \"$CLAUDE_PROJECT_DIR\"/.claude/scripts/validate.sh",
+      "python \"$CLAUDE_PROJECT_DIR\"/.claude/scripts/formatter.py",
+      "\"$CLAUDE_PROJECT_DIR\"/.claude/scripts/executable.sh"
+    ],
+    "antiPatterns": [
+      "node .claude/scripts/my-script.js (fragile - depends on working directory)",
+      "bash ~/.claude/scripts/validate.sh (wrong - references home directory, not project)",
+      "python $CLAUDE_PROJECT_DIR/.claude/scripts/formatter.py (missing quotes - breaks with spaces)"
+    ]
+  }
+}

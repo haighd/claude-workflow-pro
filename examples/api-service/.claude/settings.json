@@ -1,0 +1,34 @@
+{
+  "hooks": {
+    "userPromptSubmit": [
+      {
+        "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] User: $USER_PROMPT\" >> \"$CLAUDE_PROJECT_DIR\"/.claude/session.log"
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-commit.sh",
+        "toolMatchers": ["Bash:git commit"]
+      },
+      {
+        "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/test-runner.sh \"$TOOL_INPUT\"",
+        "toolMatchers": ["Write:src/**/*.js", "Edit:src/**/*.js"]
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] Tool: $TOOL_NAME ($TOOL_STATUS)\" >> \"$CLAUDE_PROJECT_DIR\"/.claude/session.log",
+        "toolMatchers": ["*"]
+      },
+      {
+        "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/api-validator.js",
+        "toolMatchers": ["Write:src/routes/*.js", "Edit:src/routes/*.js"]
+      }
+    ],
+    "stop": [
+      {
+        "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] Session ended\" >> \"$CLAUDE_PROJECT_DIR\"/.claude/session.log"
+      }
+    ]
+  }
+}

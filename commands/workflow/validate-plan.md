@@ -1,8 +1,15 @@
+---
+description: Validate implementation plan execution and verify success criteria
+model: sonnet
+---
+
 # Validate Plan
 
 You are tasked with validating that an implementation plan was correctly executed, verifying all success criteria and identifying any deviations or issues.
 
-## Initial Setup
+## Process
+
+### Step 1: Initial Setup
 
 When invoked:
 
@@ -25,9 +32,7 @@ When invoked:
    npm test  # or appropriate test command for the project
    ```
 
-## Validation Process
-
-### Step 1: Context Discovery
+### Step 2: Context Discovery
 
 If starting fresh or need more context:
 
@@ -56,7 +61,7 @@ If starting fresh or need more context:
    Return: Test status and any missing coverage
    ```
 
-### Step 2: Systematic Validation
+### Step 3: Systematic Validation
 
 For each phase in the plan:
 
@@ -78,7 +83,7 @@ For each phase in the plan:
    - Are there missing validations?
    - Could the implementation break existing functionality?
 
-### Step 3: Generate Validation Report
+### Step 4: Generate Validation Report
 
 Create comprehensive validation summary:
 

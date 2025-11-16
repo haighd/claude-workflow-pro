@@ -1,0 +1,95 @@
+name: Documentation Issue
+description: Report missing, incorrect, or confusing documentation
+title: "[Docs]: "
+labels: ["documentation", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve our documentation! Please fill out the form below.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Documentation Issue Type
+      options:
+        - "Missing documentation"
+        - "Incorrect/outdated information"
+        - "Unclear/confusing explanation"
+        - "Broken links"
+        - "Typo or grammar"
+        - "Missing example"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Documentation Location
+      description: Where is the documentation issue?
+      placeholder: |
+        File: README.md
+        Section: Installation
+        Line: 65
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: What's Wrong?
+      description: Describe the documentation issue
+      placeholder: The documentation says... but it should say...
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Improvement
+      description: How should the documentation be improved?
+      placeholder: I suggest changing it to...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Documentation Category
+      multiple: true
+      options:
+        - "README.md"
+        - "USAGE.md"
+        - "CONFIGURATION.md"
+        - "CONTRIBUTING.md"
+        - "Command documentation"
+        - "Agent documentation"
+        - "Example projects"
+        - "API/Technical docs"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add any other context or screenshots
+      placeholder: Any other information...
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to submit a PR to fix this documentation issue
+          required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true

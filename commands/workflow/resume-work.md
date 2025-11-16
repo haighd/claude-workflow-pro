@@ -1,8 +1,15 @@
+---
+description: Resume work from saved checkpoint or progress document
+model: sonnet
+---
+
 # Resume Work
 
 Resume work after a break, context clear, or session handoff.
 
-## Step 0: Check for Checkpoints (Automatic)
+## Process
+
+### Step 1: Check for Checkpoints (Automatic)
 
 **Before asking for input**, check for saved checkpoints:
 
@@ -43,11 +50,11 @@ LATEST_CHECKPOINT=$(ls -t "$CHECKPOINTS_PATH"/*-checkpoint.md 2>/dev/null | head
 **If no checkpoint found**:
 - Ask user for document path
 
-## Input Required
+### Step 2: Get Document Path
 
 The user will provide a path to a checkpoint, plan, or progress document. This document contains all context about previous work.
 
-## Step 1: Read and Analyze the Plan Document
+### Step 3: Read and Analyze the Plan Document
 
 Read the provided document completely. It should contain:
 - Session overview (completed tasks, current status)
@@ -56,7 +63,7 @@ Read the provided document completely. It should contain:
 - Remaining work and dependencies
 - Environment and setup information
 
-## Step 2: Build Mental Model
+### Step 4: Build Mental Model
 
 Based on the document, establish:
 - **Primary Goal**: What is the overall objective?
@@ -64,7 +71,7 @@ Based on the document, establish:
 - **Next Action**: What is the immediate next step?
 - **Context**: What decisions or approaches are important to maintain?
 
-## Step 3: Verify Environment Setup
+### Step 5: Verify Environment Setup
 
 Check the documented environment requirements:
 - Confirm correct git branch
@@ -72,7 +79,7 @@ Check the documented environment requirements:
 - Check test status if mentioned
 - Note any setup prerequisites
 
-## Step 4: Present Understanding
+### Step 6: Present Understanding
 
 Provide a clear summary showing:
 1. **What I understand we're working on**: Brief description of the goal
@@ -82,13 +89,13 @@ Provide a clear summary showing:
 
 Format this as a concise summary, NOT a repetition of the entire document.
 
-## Step 5: Get Confirmation
+### Step 7: Get Confirmation
 
 Ask:
 - "Does this match your understanding?"
 - "Should I proceed with [specific next step], or is there anything you want to adjust?"
 
-## Step 6: Begin Work
+### Step 8: Begin Work
 
 Once confirmed:
 - Use TodoWrite to create a task list based on immediate next steps

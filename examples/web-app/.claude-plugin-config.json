@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "paths": {
+    "tasks": ".claude/tasks",
+    "plans": ".claude/plans",
+    "sessions": ".claude/sessions",
+    "documentation": ".claude/docs"
+  },
+  "workflow": {
+    "autoCheckpoint": true,
+    "planTemplate": "default",
+    "checkpointInterval": 30
+  },
+  "github": {
+    "enabled": true,
+    "defaultBranch": "main",
+    "autoLinkIssues": true,
+    "prTemplate": "default"
+  },
+  "development": {
+    "testCommand": "npm test",
+    "buildCommand": "npm run build",
+    "lintCommand": "npm run lint"
+  }
+}

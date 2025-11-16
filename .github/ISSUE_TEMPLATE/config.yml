@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or Discussion
+    url: https://github.com/yourusername/claude-workflow-pro/discussions
+    about: Ask questions or discuss ideas with the community
+  - name: Claude Code Documentation
+    url: https://docs.claude.com/claude-code
+    about: Official Claude Code documentation
+  - name: Security Issue
+    url: https://github.com/yourusername/claude-workflow-pro/security/advisories/new
+    about: Report a security vulnerability privately

@@ -1,0 +1,55 @@
+# Auto-labeling configuration for PRs
+
+'workflow':
+  - changed-files:
+    - any-glob-to-any-file: 'commands/workflow/**'
+
+'github-integration':
+  - changed-files:
+    - any-glob-to-any-file: 'commands/github/**'
+
+'development-tools':
+  - changed-files:
+    - any-glob-to-any-file: 'commands/development/**'
+
+'research':
+  - changed-files:
+    - any-glob-to-any-file: 'commands/research/**'
+
+'agents':
+  - changed-files:
+    - any-glob-to-any-file: 'agents/**'
+
+'documentation':
+  - changed-files:
+    - any-glob-to-any-file:
+      - '*.md'
+      - 'docs/**'
+      - 'examples/**/README.md'
+
+'tests':
+  - changed-files:
+    - any-glob-to-any-file: 'tests/**'
+
+'examples':
+  - changed-files:
+    - any-glob-to-any-file: 'examples/**'
+
+'configuration':
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.claude-plugin/**'
+      - '*.json'
+      - 'CONFIGURATION.md'
+
+'ci-cd':
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/workflows/**'
+      - '.github/labeler.yml'
+
+'dependencies':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'package.json'
+      - 'package-lock.json'

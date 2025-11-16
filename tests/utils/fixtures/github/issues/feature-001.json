@@ -1,0 +1,9 @@
+{
+  "number": 2,
+  "title": "Add dark mode toggle",
+  "body": "**Feature Request**\n\nWe should add a dark mode toggle to the application.\n\n**Use Case**\nMany users prefer dark mode for reduced eye strain, especially when using the app at night.\n\n**Proposed Solution**\n- Add toggle in settings\n- Persist user preference\n- Apply dark theme throughout app\n\n**Alternatives Considered**\n- Auto dark mode based on system settings\n- Time-based dark mode\n\n**Additional Context**\nDark mode is becoming a standard feature in modern applications.",
+  "labels": ["feature", "enhancement", "priority:medium"],
+  "state": "open",
+  "created_at": "2025-11-14T15:30:00Z",
+  "updated_at": "2025-11-14T15:30:00Z"
+}

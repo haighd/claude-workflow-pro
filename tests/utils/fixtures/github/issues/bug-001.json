@@ -1,0 +1,9 @@
+{
+  "number": 1,
+  "title": "Login button not responding on mobile",
+  "body": "**Describe the bug**\nThe login button doesn't respond to taps on mobile devices.\n\n**To Reproduce**\n1. Open app on mobile device\n2. Navigate to login page\n3. Tap login button\n4. Nothing happens\n\n**Expected behavior**\nLogin button should submit form\n\n**Screenshots**\nN/A\n\n**Environment**\n- Device: iPhone 14\n- OS: iOS 16\n- Browser: Safari\n\n**Additional context**\nWorks fine on desktop browsers",
+  "labels": ["bug", "priority:high", "mobile"],
+  "state": "open",
+  "created_at": "2025-11-15T10:00:00Z",
+  "updated_at": "2025-11-15T10:00:00Z"
+}

@@ -1,0 +1,10 @@
+{
+  "directories": {
+    "docs": "documentation",
+    "thoughts": "documentation/notes",
+    "sessions": "documentation/sessions",
+    "plans": "documentation/plans",
+    "tests": "__tests__",
+    "src": "lib"
+  }
+}

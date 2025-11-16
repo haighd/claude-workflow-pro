@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "paths": {
+    "tasks": ".claude/tasks",
+    "plans": ".claude/plans",
+    "sessions": ".claude/sessions",
+    "documentation": ".claude/docs",
+    "agents": ".claude/agents"
+  },
+  "workflow": {
+    "autoCheckpoint": true,
+    "planTemplate": "detailed",
+    "checkpointInterval": 30,
+    "validateBeforeImplement": true,
+    "requirePlanForFeatures": true
+  },
+  "github": {
+    "enabled": true,
+    "defaultBranch": "main",
+    "autoLinkIssues": true,
+    "prTemplate": "detailed",
+    "autoAssignReviewer": true,
+    "issueLabels": ["enhancement", "bug", "documentation"]
+  },
+  "development": {
+    "testCommand": "npm test",
+    "buildCommand": "npm run build",
+    "lintCommand": "npm run lint",
+    "typeCheckCommand": "npm run type-check",
+    "preCommitHook": true
+  },
+  "agents": {
+    "codebase": {
+      "enabled": true,
+      "autoDiscover": true
+    },
+    "documentation": {
+      "enabled": true,
+      "autoDiscover": true
+    },
+    "web": {
+      "enabled": true
+    }
+  },
+  "research": {
+    "defaultDepth": "thorough",
+    "saveResults": true,
+    "resultsPath": ".claude/research"
+  }
+}

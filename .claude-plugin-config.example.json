@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Example configuration for Claude Workflow Pro plugin. Copy to .claude-plugin-config.json and customize for your project.",
+
+  "directories": {
+    "docs": "docs",
+    "thoughts": "docs/thoughts",
+    "sessions": "docs/sessions",
+    "plans": "docs/implementation-plans",
+    "tests": "tests",
+    "src": "src",
+    "config": ".config"
+  },
+
+  "github": {
+    "issueLabels": [
+      "bug",
+      "feature",
+      "enhancement",
+      "documentation",
+      "tech-debt",
+      "security",
+      "priority:high",
+      "priority:medium",
+      "priority:low"
+    ],
+    "defaultBranch": "main",
+    "prTemplate": "default",
+    "autoLink": true,
+    "branchPrefix": "auto"
+  },
+
+  "workflow": {
+    "autoCheckpoint": true,
+    "checkpointInterval": "30min",
+    "planTemplate": "default",
+    "progressTracking": true
+  },
+
+  "agents": {
+    "maxResults": 10,
+    "contextReduction": true,
+    "categories": [
+      "codebase",
+      "documentation",
+      "web",
+      "workflow"
+    ]
+  },
+
+  "development": {
+    "commitFormat": "conventional",
+    "autoTest": false,
+    "lintOnSave": false
+  }
+}

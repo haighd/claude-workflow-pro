@@ -1,0 +1,24 @@
+{
+  "directories": {
+    "docs": "docs",
+    "thoughts": "docs/thoughts",
+    "sessions": "docs/sessions",
+    "plans": "docs/implementation-plans",
+    "tests": "tests",
+    "src": "src"
+  },
+  "github": {
+    "issueLabels": ["bug", "feature", "enhancement", "documentation"],
+    "defaultBranch": "main",
+    "autoLink": true
+  },
+  "workflow": {
+    "autoCheckpoint": true,
+    "checkpointInterval": "30min",
+    "progressTracking": true
+  },
+  "agents": {
+    "maxResults": 10,
+    "contextReduction": true
+  }
+}

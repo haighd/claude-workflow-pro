@@ -190,6 +190,85 @@ Add this reminder to:
 4. **List key files**: Include both modified and important context files
 5. **Document decisions**: Capture the "why" behind choices made
 
+## Error Handling
+
+### Common Issues and Solutions
+
+**Issue: Cannot create checkpoint directory**
+
+```bash
+# Check if directory exists and is writable
+if [ ! -d "docs/sessions" ]; then
+  mkdir -p docs/sessions
+fi
+
+# If permission denied:
+# Report: "Unable to create checkpoint directory. Please check permissions for docs/sessions/"
+```
+
+**Issue: Checkpoint file already exists**
+
+```bash
+# If file exists with same timestamp
+# Options:
+# 1. Add suffix: 2025-11-15-1500-checkpoint-v2.md
+# 2. Ask user if they want to overwrite
+# 3. Increment timestamp by 1 minute
+```
+
+**Issue: Unable to determine session path**
+
+```bash
+# Fallback logic:
+# 1. Check .claude-plugin-config.json
+# 2. Check .claude/config.json
+# 3. Default to docs/sessions/
+# 4. If all fail, use current directory: ./checkpoint-{timestamp}.md
+
+# Report location to user
+```
+
+**Issue: Git not initialized**
+
+```bash
+# Check git status
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+  # Report: "This is not a git repository. Checkpoint created but cannot be committed."
+  # Suggestion: "Run 'git init' to enable checkpoint version control."
+fi
+```
+
+**Issue: Context too large to summarize**
+
+If conversation history is very large:
+- Focus on last major task/milestone
+- Summarize older work in bullet points
+- Reference previous checkpoints by filename
+- Keep "Next Steps" section detailed and specific
+
+**Issue: No clear completion point**
+
+If work is mid-task:
+- Document current state clearly
+- Note what's partially complete
+- List blockers or unknowns
+- Provide exact next command or action
+
+### Verification Steps
+
+After creating checkpoint:
+
+```bash
+# Verify file was created
+ls -lh docs/sessions/*-checkpoint.md | tail -1
+
+# Verify file is readable
+head -5 docs/sessions/[checkpoint-file].md
+
+# Verify file size is reasonable (>100 bytes)
+# If file is too small, may indicate incomplete write
+```
+
 ## Implementation Notes
 
 - Checkpoints are markdown files for easy reading and editing
@@ -197,3 +276,23 @@ Add this reminder to:
 - Commit checkpoints to git for project history
 - `/resume-work` automatically discovers and reads latest checkpoint
 - ALWAYS verify that you've **actually created** the checkpoint file before announcing its creation
+
+## Troubleshooting
+
+**Checkpoint not found by /resume-work:**
+- Verify file follows naming pattern: `*-checkpoint.md`
+- Check file is in correct directory (docs/sessions/ by default)
+- Ensure file has `.md` extension
+- Verify no typos in filename
+
+**Checkpoint file is empty or corrupted:**
+- Check disk space: `df -h`
+- Verify write permissions: `ls -ld docs/sessions/`
+- Re-create checkpoint if needed
+- Keep previous checkpoints as backup
+
+**Cannot determine what to checkpoint:**
+- Review conversation history
+- Check git log for recent commits
+- List modified files: `git status`
+- Ask user what they want captured
